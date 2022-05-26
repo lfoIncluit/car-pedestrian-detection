@@ -2,6 +2,7 @@ import cv2
 import imutils
 import numpy as np
 from openvino.inference_engine import IECore
+from datetime import datetime
 
 TEST_PATH = "Images"
 VIDEO_PATH = "Video/BlindspotFront.mp4"
@@ -128,6 +129,9 @@ def main():
     success, img = vidcap.read()
 
     detection_area = generate_detection_area(img)
+    initial_dt = datetime.now()
+    initial_ts = int(datetime.timestamp(initial_dt))
+    fps = 0
 
     while success:
         car_pedestrianDetection(
@@ -141,6 +145,14 @@ def main():
         if cv2.waitKey(10) == 27:  # exit if Escape is hit
             break
         success, img = vidcap.read()
+        dt = datetime.now()
+        ts = int(datetime.timestamp(dt))
+        if ts > initial_ts:
+            print("FPS: ", fps)
+            fps = 0
+            initial_ts = ts
+        else:
+            fps += 1
 
 
 if __name__ == "__main__":
