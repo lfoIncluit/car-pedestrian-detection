@@ -1,5 +1,5 @@
-# road_segmentation
+# car-pedestrian-detection
 
 execution:
 
-python3 road-segmentation-adas-0001.py
+python3 car-pedestrian-detection.py
